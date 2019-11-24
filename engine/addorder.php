@@ -1,16 +1,25 @@
 <?php
-if(isset($_POST["submit"])){
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+if(!empty($_POST)){
     require("connect.php");
 
-    $sql = "INSERT INTO `orders`(`name`, `customer`, `contact`, `deadline`, `price`)
-VALUES ('".$_POST["ordername"]."','".$_POST["ordercustomer"]."','".$_POST["ordercustomercontact"]."','".$_POST["orderdeadline"]."','".$_POST["orderprice"]."')";
+    $name = $_POST["ordername"];
+    $customer = $_POST["ordercustomer"];
+    $contact = $_POST["ordercustomercontact"];
+    $deadline = $_POST["orderdeadline"];
+    $price = $_POST["orderprice"];
 
-if ($conn->query($sql) === TRUE) {
-echo "<script type= 'text/javascript'>alert('New order added successfully');</script>";
-} else {
-echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
-}
+    $sql = "INSERT INTO `orders`(`name`, `customer`, `contact`, `deadline`, `price`) VALUES ('$name','$customer','$contact','$deadline','$price')";
+    
+    $result = $mysqli->query($sql);
 
-$conn->close();
+    if ($result == true){
+        echo "Order added succesful";
+    }else{
+        echo "Error";
+    }
+    
+    $mysqli->close();
 }
 ?>

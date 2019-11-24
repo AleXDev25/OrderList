@@ -1,3 +1,7 @@
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
 <!doctype html>
 <html lang="en">
 
@@ -25,8 +29,8 @@
     <div class="row">
       <div class="col-md-2" id="menu">
         <div class="container-fluid btn-group-vertical btn-group-lg">
-          <button id="newtask" class="btn btn-success btn-lg btn-block" data-toggle="modal"
-            data-target="#edittask">Add order</button>
+          <button id="btn_addorder" class="btn btn-success btn-lg btn-block" data-toggle="modal"
+            data-target="#orderAddModal">Add order</button>
           <button id="tasks" class="btn btn-light btn-lg btn-block">Orders</button>
           <button id="refresh" class="btn btn-light btn-lg btn-block">Refresh</button>
         </div>
@@ -38,17 +42,17 @@
     </div>
   </div>
 
-  <div class="modal fade" id="edittask" tabindex="-1" role="dialog" aria-labelledby="Заявка" aria-hidden="true">
+  <div class="modal fade" id="orderAddModal" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">New order</h5>
+          <h5 class="modal-title" id="ModalTitle">New order</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form action="" method="POST">
+          <form id="addform">
             <div class="form-group">
               <label for="ordername">Order name</label>
               <input type="text" class="form-control" name = "ordername" id="ordername" placeholder="Order name" required="required">
@@ -69,52 +73,20 @@
                 <label for="orderprice">Price</label>
                 <input type="text" class="form-control" name = "orderprice" id="orderprice" required="required">
             </div>
+            <!-- <div>
+              <input type="submit" name="add" id="add" value="Add" class="btn btn-primary" />
+            </div> -->
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-          <button type="submit" class="btn btn-primary" name="submit">Добавить</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" id="add" class="btn btn-primary" name="submit">Add</button>
         </div>
       </div>
     </div>
   </div>
 
-<?php
-if(isset($_POST["submit"])){
-    require("connect.php");
-
-    $sql = "INSERT INTO `orders`(`name`, `customer`, `contact`, `deadline`, `price`)
-VALUES ('".$_POST["ordername"]."','".$_POST["ordercustomer"]."','".$_POST["ordercustomercontact"]."','".$_POST["orderdeadline"]."','".$_POST["orderprice"]."')";
-
-if ($conn->query($sql) === TRUE) {
-echo "<script type= 'text/javascript'>alert('New order added successfully');</script>";
-} else {
-echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
-}
-
-$conn->close();
-}
-?>
-
-  <script>
-    $(document).ready(function(){
-      $('#content').load("engine/showorders.php");
-
-      $('#info').click(function(){
-        $('#content').load("engine/showorders.php");
-      });
-
-      $('#refresh').click(function(){
-        location.reload();
-      });
-    });
-    $('#orderdeadline').datepicker({
-      format: 'yyyy/mm/dd',
-      language: 'ru',
-      todayHighlight: true
-    });
-  </script>
-
+  <script src="js/methods.js"></script>
 
 </body>
 

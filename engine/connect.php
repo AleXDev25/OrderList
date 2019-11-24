@@ -1,4 +1,6 @@
 <?
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require("conf.php");
 
 $mysqli = new mysqli('localhost', $username, $password, $dbname) or die ("Ошибка подключения к базе данных");
